@@ -11,23 +11,23 @@ import json
 SEED = 1
 torch.manual_seed(SEED)
 
-class Arguments:
 
+class Arguments:
     def __init__(self, logger):
         self.logger = logger
 
-        self.batch_size = 10
+        self.batch_size = 4
         self.test_batch_size = 1000
-        self.epochs = 10
-        self.lr = 0.01
-        self.momentum = 0.5
+        self.epochs = 200
+        self.lr = 0.001
+        self.momentum = 0.9
         self.cuda = True
         self.shuffle = False
         self.log_interval = 100
         self.kwargs = {}
 
-        self.scheduler_step_size = 50
-        self.scheduler_gamma = 0.5
+        self.scheduler_step_size = 10
+        self.scheduler_gamma = 0.1
         self.min_lr = 1e-10
 
         self.round_worker_selection_strategy = None
@@ -40,13 +40,20 @@ class Arguments:
         self.epoch_save_end_suffix = "end"
 
         self.num_workers = 50
-        self.num_poisoned_workers = 0
+        self.num_poisoned_workers = 10
 
-        #self.net = Cifar10CNN
+        # self.net = Cifar10CNN
         self.net = FashionMNISTCNN
 
-        self.train_data_loader_pickle_path = "data_loaders/fashion-mnist/train_data_loader.pickle"
-        self.test_data_loader_pickle_path = "data_loaders/fashion-mnist/test_data_loader.pickle"
+        # self.train_data_loader_pickle_path = "data_loaders/fashion-mnist/train_data_loader.pickle"
+        # self.test_data_loader_pickle_path = "data_loaders/fashion-mnist/test_data_loader.pickle"
+
+        self.train_data_loader_pickle_path = (
+            "data_loaders/kmnist/train_data_loader.pickle"
+        )
+        self.test_data_loader_pickle_path = (
+            "data_loaders/kmnist/test_data_loader.pickle"
+        )
 
         self.loss_function = torch.nn.CrossEntropyLoss
 
@@ -151,10 +158,14 @@ class Arguments:
         return self.save_model_path
 
     def get_learning_rate_from_epoch(self, epoch_idx):
-        lr = self.lr * (self.scheduler_gamma ** int(epoch_idx / self.scheduler_step_size))
+        lr = self.lr * (
+            self.scheduler_gamma ** int(epoch_idx / self.scheduler_step_size)
+        )
 
         if lr < self.min_lr:
-            self.logger.warning("Updating LR would place it below min LR. Skipping LR update.")
+            self.logger.warning(
+                "Updating LR would place it below min LR. Skipping LR update."
+            )
 
             return self.min_lr
 
@@ -182,29 +193,39 @@ class Arguments:
         self.logger.debug("Arguments: {}", str(self))
 
     def __str__(self):
-        return "\nBatch Size: {}\n".format(self.batch_size) + \
-               "Test Batch Size: {}\n".format(self.test_batch_size) + \
-               "Epochs: {}\n".format(self.epochs) + \
-               "Learning Rate: {}\n".format(self.lr) + \
-               "Momentum: {}\n".format(self.momentum) + \
-               "CUDA Enabled: {}\n".format(self.cuda) + \
-               "Shuffle Enabled: {}\n".format(self.shuffle) + \
-               "Log Interval: {}\n".format(self.log_interval) + \
-               "Scheduler Step Size: {}\n".format(self.scheduler_step_size) + \
-               "Scheduler Gamma: {}\n".format(self.scheduler_gamma) + \
-               "Scheduler Minimum Learning Rate: {}\n".format(self.min_lr) + \
-               "Client Selection Strategy: {}\n".format(self.round_worker_selection_strategy) + \
-               "Client Selection Strategy Arguments: {}\n".format(json.dumps(self.round_worker_selection_strategy_kwargs, indent=4, sort_keys=True)) + \
-               "Model Saving Enabled: {}\n".format(self.save_model) + \
-               "Model Saving Interval: {}\n".format(self.save_epoch_interval) + \
-               "Model Saving Path (Relative): {}\n".format(self.save_model_path) + \
-               "Epoch Save Start Prefix: {}\n".format(self.epoch_save_start_suffix) + \
-               "Epoch Save End Suffix: {}\n".format(self.epoch_save_end_suffix) + \
-               "Number of Clients: {}\n".format(self.num_workers) + \
-               "Number of Poisoned Clients: {}\n".format(self.num_poisoned_workers) + \
-               "NN: {}\n".format(self.net) + \
-               "Train Data Loader Path: {}\n".format(self.train_data_loader_pickle_path) + \
-               "Test Data Loader Path: {}\n".format(self.test_data_loader_pickle_path) + \
-               "Loss Function: {}\n".format(self.loss_function) + \
-               "Default Model Folder Path: {}\n".format(self.default_model_folder_path) + \
-               "Data Path: {}\n".format(self.data_path)
+        return (
+            "\nBatch Size: {}\n".format(self.batch_size)
+            + "Test Batch Size: {}\n".format(self.test_batch_size)
+            + "Epochs: {}\n".format(self.epochs)
+            + "Learning Rate: {}\n".format(self.lr)
+            + "Momentum: {}\n".format(self.momentum)
+            + "CUDA Enabled: {}\n".format(self.cuda)
+            + "Shuffle Enabled: {}\n".format(self.shuffle)
+            + "Log Interval: {}\n".format(self.log_interval)
+            + "Scheduler Step Size: {}\n".format(self.scheduler_step_size)
+            + "Scheduler Gamma: {}\n".format(self.scheduler_gamma)
+            + "Scheduler Minimum Learning Rate: {}\n".format(self.min_lr)
+            + "Client Selection Strategy: {}\n".format(
+                self.round_worker_selection_strategy
+            )
+            + "Client Selection Strategy Arguments: {}\n".format(
+                json.dumps(
+                    self.round_worker_selection_strategy_kwargs,
+                    indent=4,
+                    sort_keys=True,
+                )
+            )
+            + "Model Saving Enabled: {}\n".format(self.save_model)
+            + "Model Saving Interval: {}\n".format(self.save_epoch_interval)
+            + "Model Saving Path (Relative): {}\n".format(self.save_model_path)
+            + "Epoch Save Start Prefix: {}\n".format(self.epoch_save_start_suffix)
+            + "Epoch Save End Suffix: {}\n".format(self.epoch_save_end_suffix)
+            + "Number of Clients: {}\n".format(self.num_workers)
+            + "Number of Poisoned Clients: {}\n".format(self.num_poisoned_workers)
+            + "NN: {}\n".format(self.net)
+            + "Train Data Loader Path: {}\n".format(self.train_data_loader_pickle_path)
+            + "Test Data Loader Path: {}\n".format(self.test_data_loader_pickle_path)
+            + "Loss Function: {}\n".format(self.loss_function)
+            + "Default Model Folder Path: {}\n".format(self.default_model_folder_path)
+            + "Data Path: {}\n".format(self.data_path)
+        )
