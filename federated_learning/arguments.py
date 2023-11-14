@@ -48,10 +48,13 @@ class Arguments:
 
         #self.net = Cifar10CNN
         # self.net = FashionMNISTCNN
-        self.net = MnistMLP
+        # self.net = MnistMLP
+        self.net = Cifar10MLP
 
-        self.train_data_loader_pickle_path = "data_loaders/fashion-mnist/train_data_loader.pickle"
-        self.test_data_loader_pickle_path = "data_loaders/fashion-mnist/test_data_loader.pickle"
+        # self.train_data_loader_pickle_path = "data_loaders/fashion-mnist/train_data_loader.pickle"
+        # self.test_data_loader_pickle_path = "data_loaders/fashion-mnist/test_data_loader.pickle"
+        self.train_data_loader_pickle_path = "data_loaders/cifar10/train_data_loader.pickle"
+        self.test_data_loader_pickle_path = "data_loaders/cifar10/test_data_loader.pickle"
 
         self.loss_function = torch.nn.CrossEntropyLoss
 
