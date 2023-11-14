@@ -7,8 +7,8 @@ class CustomResNet(nn.Module):
     def __init__(self):
         super(CustomResNet, self).__init__()
 
-        ds = "CIFAR-10"
-        # ds = "MNIST"
+        # ds = "CIFAR-10"
+        ds = "MNIST"
 
         # Start with the pre-trained resnet18 model
         self.resnet18 = resnet18(weights='DEFAULT')
