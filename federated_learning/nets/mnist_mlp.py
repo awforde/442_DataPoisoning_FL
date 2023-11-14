@@ -22,10 +22,12 @@ class MnistMLP(nn.Module):
         self.layers.apply(self.init_weights)
 
 
-    def init_weights(m):
-        if isinstance(m, nn.Linear):
-            nn.init.xavier_uniform_(m.weight)
-            m.bias.data.fill_(0.01)
-
     def forward(self, x):
         return self.layers(x)
+
+
+
+def init_weights(m):
+    if isinstance(m, nn.Linear):
+        nn.init.xavier_uniform_(m.weight)
+        m.bias.data.fill_(0.01)
