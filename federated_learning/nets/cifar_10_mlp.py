@@ -23,5 +23,15 @@ class Cifar10MLP(nn.Module):
             nn.Linear(32, 10)
         )
 
+        # Initialize the weights of the MLP
+        self.layers.apply(init_weights)
+
+
+    def init_weights(m):
+        if isinstance(m, nn.Linear):
+            nn.init.xavier_uniform_(m.weight)
+            m.bias.data.fill_(0.01)
+
+
     def forward(self, x):
         return self.layers(x)
