@@ -24,7 +24,7 @@ class Cifar10MLP(nn.Module):
         )
 
         # Initialize the weights of the MLP
-        self.layers.apply(self.init_weights)
+        self.layers.apply(init_weights)
 
 
     def forward(self, x):

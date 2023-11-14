@@ -19,7 +19,7 @@ class MnistMLP(nn.Module):
             nn.Linear(32, 10)
         )
 
-        self.layers.apply(self.init_weights)
+        self.layers.apply(init_weights)
 
 
     def forward(self, x):
