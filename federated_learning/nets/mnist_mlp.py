@@ -3,12 +3,6 @@ import torch.nn as nn
 
 class MnistMLP(nn.Module):
 
-    def init_weights(m):
-        if isinstance(m, nn.Linear):
-            nn.init.xavier_uniform_(m.weight)
-            m.bias.data.fill_(0.01)
-
-
     def __init__(self):
         super(MnistMLP, self).__init__()
 
@@ -25,8 +19,13 @@ class MnistMLP(nn.Module):
             nn.Linear(32, 10)
         )
 
-        self.layers.apply(init_weights)
+        self.layers.apply(self.init_weights)
 
+
+    def init_weights(m):
+        if isinstance(m, nn.Linear):
+            nn.init.xavier_uniform_(m.weight)
+            m.bias.data.fill_(0.01)
 
     def forward(self, x):
         return self.layers(x)
