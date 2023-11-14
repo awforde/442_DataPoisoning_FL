@@ -8,8 +8,8 @@ class CustomVisionTransformer(nn.Module):
         super(CustomVisionTransformer, self).__init__()
 
 
-        ds = "CIFAR-10"
-        # ds = "MNIST"
+        # ds = "CIFAR-10"
+        ds = "MNIST"
 
 
         # Start with the default ViT model
@@ -23,7 +23,7 @@ class CustomVisionTransformer(nn.Module):
             # MNIST images are 1x28x28
             # Replace the first layer so the patch size and input channels work
             self.model.conv_proj = nn.Conv2d(1, embedding_dim, kernel_size=(14,14), stride=(14,14))
-        else:
+        elif ds != "CIFAR-10":
             print("ERROR! Invalid dataset type detected!")
 
 
