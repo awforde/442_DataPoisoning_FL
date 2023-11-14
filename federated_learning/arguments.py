@@ -1,5 +1,9 @@
 from .nets import Cifar10CNN
 from .nets import FashionMNISTCNN
+from .nets import Cifar10MLP
+from .nets import MnistMLP
+from .nets import CustomResNet
+from .nets import CustomVisionTransformer
 from .worker_selection import BeforeBreakpoint
 from .worker_selection import AfterBreakpoint
 from .worker_selection import PoisonerProbability
@@ -43,7 +47,8 @@ class Arguments:
         self.num_poisoned_workers = 0
 
         #self.net = Cifar10CNN
-        self.net = FashionMNISTCNN
+        # self.net = FashionMNISTCNN
+        self.net = CustomVisionTransformer
 
         self.train_data_loader_pickle_path = "data_loaders/fashion-mnist/train_data_loader.pickle"
         self.test_data_loader_pickle_path = "data_loaders/fashion-mnist/test_data_loader.pickle"
