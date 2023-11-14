@@ -18,10 +18,8 @@ class CustomVisionTransformer(nn.Module):
         embedding_dim = 768
 
         # Modify the first convolutional layer to work with the dataset
-        if ds == "CIFAR-10":
-            # CIFAR-10 images are 3x32x32, while ImageNet images are 3x224x224
-            # The default patch size and channels are good
-        elif ds == "MNIST":
+        # CIFAR-10 images are 3x32x32; the default patch size and channels are good
+        if ds == "MNIST":
             # MNIST images are 1x28x28
             # Replace the first layer so the patch size and input channels work
             self.model.conv_proj = nn.Conv2d(1, embedding_dim, kernel_size=(14,14), stride=(14,14))
