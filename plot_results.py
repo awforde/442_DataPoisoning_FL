@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 def plot_src_recall():
     df = pd.read_csv(
-        r"C:\Users\sarth\442_DataPoisoning_FL\experiment_results\kmnist_cnn\M_20\3002_results.csv",
+        r"C:\Users\sarth\442_DataPoisoning_FL\experiment_results\kmnist_cnn\M_0\3002_results.csv",
         header=None,
     )
 
@@ -17,10 +17,11 @@ def plot_src_recall():
     plt.plot(epochs, src_class)
     plt.xlabel("Epochs")
     plt.ylabel("Source Recall")
-    plt.show()
+
     plt.savefig(
-        r"C:\Users\sarth\442_DataPoisoning_FL\experiment_results\kmnist_cnn\M_20\plots\exp3_src_recall.jpg"
+        r"C:\Users\sarth\442_DataPoisoning_FL\experiment_results\kmnist_cnn\M_0\plots\exp3_src_recall.jpg"
     )
+    plt.show()
 
 
 plot_src_recall()
