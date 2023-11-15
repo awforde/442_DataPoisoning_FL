@@ -1,5 +1,9 @@
 from .nets import Cifar10CNN
 from .nets import FashionMNISTCNN
+from .nets import Cifar10MLP
+from .nets import MnistMLP
+from .nets import CustomResNet
+from .nets import CustomVisionTransformer
 from .worker_selection import BeforeBreakpoint
 from .worker_selection import AfterBreakpoint
 from .worker_selection import PoisonerProbability
@@ -44,7 +48,11 @@ class Arguments:
 
         # self.net = Cifar10CNN
         self.net = FashionMNISTCNN
+        # self.net = MnistMLP
+        # self.net = Cifar10MLP
+        # self.net = CustomResNet
 
+<<<<<<< HEAD
         # self.train_data_loader_pickle_path = "data_loaders/fashion-mnist/train_data_loader.pickle"
         # self.test_data_loader_pickle_path = "data_loaders/fashion-mnist/test_data_loader.pickle"
 
@@ -54,6 +62,12 @@ class Arguments:
         self.test_data_loader_pickle_path = (
             "data_loaders/kmnist/test_data_loader.pickle"
         )
+=======
+        self.train_data_loader_pickle_path = "data_loaders/fashion-mnist/train_data_loader.pickle"
+        self.test_data_loader_pickle_path = "data_loaders/fashion-mnist/test_data_loader.pickle"
+        # self.train_data_loader_pickle_path = "data_loaders/cifar10/train_data_loader.pickle"
+        # self.test_data_loader_pickle_path = "data_loaders/cifar10/test_data_loader.pickle"
+>>>>>>> 1088f844605ead9f5e1afc0318475e78e93c3c9c
 
         self.loss_function = torch.nn.CrossEntropyLoss
 
