@@ -44,23 +44,30 @@ class Arguments:
         self.epoch_save_end_suffix = "end"
 
         self.num_workers = 50
-        self.num_poisoned_workers = 10
+        self.num_poisoned_workers = 0
 
         # self.net = Cifar10CNN
-        self.net = FashionMNISTCNN
-        # self.net = MnistMLP
+        # self.net = FashionMNISTCNN
+        self.net = MnistMLP
         # self.net = Cifar10MLP
         # self.net = CustomResNet
 
-        # self.train_data_loader_pickle_path = "data_loaders/fashion-mnist/train_data_loader.pickle"
-        # self.test_data_loader_pickle_path = "data_loaders/fashion-mnist/test_data_loader.pickle"
 
-        self.train_data_loader_pickle_path = (
-            "data_loaders/kmnist/train_data_loader.pickle"
-        )
-        self.test_data_loader_pickle_path = (
-            "data_loaders/kmnist/test_data_loader.pickle"
-        )
+        # For CIFAR-10
+        # self.train_data_loader_pickle_path = "data_loaders/cifar10/train_data_loader.pickle"
+        # self.test_data_loader_pickle_path = "data_loaders/cifar10/test_data_loader.pickle"
+
+        # For FMNIST
+        self.train_data_loader_pickle_path = "data_loaders/fashion-mnist/train_data_loader.pickle"
+        self.test_data_loader_pickle_path = "data_loaders/fashion-mnist/test_data_loader.pickle"
+
+        # For KMNIST
+        # self.train_data_loader_pickle_path = (
+            # "data_loaders/kmnist/train_data_loader.pickle"
+        # )
+        # self.test_data_loader_pickle_path = (
+            # "data_loaders/kmnist/test_data_loader.pickle"
+        # )
 
         self.loss_function = torch.nn.CrossEntropyLoss
 
