@@ -52,22 +52,18 @@ class Arguments:
         # self.net = Cifar10MLP
         # self.net = CustomResNet
 
-<<<<<<< HEAD
-        # self.train_data_loader_pickle_path = "data_loaders/fashion-mnist/train_data_loader.pickle"
-        # self.test_data_loader_pickle_path = "data_loaders/fashion-mnist/test_data_loader.pickle"
+        # self.train_data_loader_pickle_path = (
+            # "data_loaders/kmnist/train_data_loader.pickle"
+        # )
+        # self.test_data_loader_pickle_path = (
+            # "data_loaders/kmnist/test_data_loader.pickle"
+        # )
 
-        self.train_data_loader_pickle_path = (
-            "data_loaders/kmnist/train_data_loader.pickle"
-        )
-        self.test_data_loader_pickle_path = (
-            "data_loaders/kmnist/test_data_loader.pickle"
-        )
-=======
         self.train_data_loader_pickle_path = "data_loaders/fashion-mnist/train_data_loader.pickle"
         self.test_data_loader_pickle_path = "data_loaders/fashion-mnist/test_data_loader.pickle"
         # self.train_data_loader_pickle_path = "data_loaders/cifar10/train_data_loader.pickle"
         # self.test_data_loader_pickle_path = "data_loaders/cifar10/test_data_loader.pickle"
->>>>>>> 1088f844605ead9f5e1afc0318475e78e93c3c9c
+
 
         self.loss_function = torch.nn.CrossEntropyLoss
 
