@@ -23,8 +23,14 @@ class CustomResNet(nn.Module):
         else:
             print("ERROR! Invalid dataset type detected!")
 
+        # Initialize the first layer's weights
+        nn.init.xavier_uniform_(self.resnet18.conv1.weight)
+
         # Modify the model's fully connected layer to match 10 classes
         self.resnet18.fc = nn.Linear(512, 10)
+        # Initialize the fc layer weights
+        nn.init.xavier_uniform_(self.resnet18.fc.weight)
+        self.resnet18.fc.bias.data.fill_(0.01)
 
 
     def forward(self, x):
