@@ -20,18 +20,18 @@ class Arguments:
     def __init__(self, logger):
         self.logger = logger
 
-        self.batch_size = 4
+        self.batch_size = 10
         self.test_batch_size = 1000
         self.epochs = 200
-        self.lr = 0.001
-        self.momentum = 0.9
+        self.lr = 0.01
+        self.momentum = 0.5
         self.cuda = True
         self.shuffle = False
         self.log_interval = 100
         self.kwargs = {}
 
-        self.scheduler_step_size = 10
-        self.scheduler_gamma = 0.1
+        self.scheduler_step_size = 50
+        self.scheduler_gamma = 0.5
         self.min_lr = 1e-10
 
         self.round_worker_selection_strategy = None
@@ -46,28 +46,39 @@ class Arguments:
         self.num_workers = 50
         self.num_poisoned_workers = 0
 
-        # self.net = Cifar10CNN
+        self.net = Cifar10CNN
         # self.net = FashionMNISTCNN
-        self.net = MnistMLP
+        # self.net = MnistMLP
         # self.net = Cifar10MLP
         # self.net = CustomResNet
-
 
         # For CIFAR-10
         # self.train_data_loader_pickle_path = "data_loaders/cifar10/train_data_loader.pickle"
         # self.test_data_loader_pickle_path = "data_loaders/cifar10/test_data_loader.pickle"
 
         # For FMNIST
-        self.train_data_loader_pickle_path = "data_loaders/fashion-mnist/train_data_loader.pickle"
-        self.test_data_loader_pickle_path = "data_loaders/fashion-mnist/test_data_loader.pickle"
+        # self.train_data_loader_pickle_path = (
+        #     "data_loaders/fashion-mnist/train_data_loader.pickle"
+        # )
+        # self.test_data_loader_pickle_path = (
+        #     "data_loaders/fashion-mnist/test_data_loader.pickle"
+        # )
 
         # For KMNIST
         # self.train_data_loader_pickle_path = (
-            # "data_loaders/kmnist/train_data_loader.pickle"
+        # "data_loaders/kmnist/train_data_loader.pickle"
         # )
         # self.test_data_loader_pickle_path = (
-            # "data_loaders/kmnist/test_data_loader.pickle"
+        # "data_loaders/kmnist/test_data_loader.pickle"
         # )
+
+        # For Artbench10
+        self.train_data_loader_pickle_path = (
+            "data_loaders/artbench10/train_data_loader.pickle"
+        )
+        self.test_data_loader_pickle_path = (
+            "data_loaders/artbench10/test_data_loader.pickle"
+        )
 
         self.loss_function = torch.nn.CrossEntropyLoss
 

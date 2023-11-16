@@ -2,8 +2,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-class Cifar10CNN(nn.Module):
 
+class Cifar10CNN(nn.Module):
     def __init__(self):
         super(Cifar10CNN, self).__init__()
 
@@ -44,6 +44,7 @@ class Cifar10CNN(nn.Module):
         x = x.view(-1, 128 * 4 * 4)
 
         x = self.fc1(x)
-        x = F.softmax(self.fc2(x))
+
+        x = F.softmax(self.fc2(x), dim=1)
 
         return x

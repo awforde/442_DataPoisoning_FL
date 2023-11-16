@@ -12,7 +12,7 @@ if __name__ == "__main__":
     NUM_EXP = 3
     NUM_POISONED_WORKERS = 0  # M=0
     REPLACEMENT_METHOD = replace_1_with_9  # Source class = 1
-    KWARGS = {"NUM_WORKERS_PER_ROUND": 10}
+    KWARGS = {"NUM_WORKERS_PER_ROUND": 5}
 
     for experiment_id in range(START_EXP_IDX, START_EXP_IDX + NUM_EXP):
         run_exp(
