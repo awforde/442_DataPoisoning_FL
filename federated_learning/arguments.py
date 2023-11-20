@@ -44,7 +44,7 @@ class Arguments:
         self.epoch_save_end_suffix = "end"
 
         self.num_workers = 50
-        self.num_poisoned_workers = 0
+        self.num_poisoned_workers = 20
 
         self.net = Cifar10CNN
         # self.net = FashionMNISTCNN
@@ -66,10 +66,10 @@ class Arguments:
 
         # For KMNIST
         # self.train_data_loader_pickle_path = (
-        # "data_loaders/kmnist/train_data_loader.pickle"
+        #     "data_loaders/kmnist/train_data_loader.pickle"
         # )
         # self.test_data_loader_pickle_path = (
-        # "data_loaders/kmnist/test_data_loader.pickle"
+        #     "data_loaders/kmnist/test_data_loader.pickle"
         # )
 
         # For Artbench10
