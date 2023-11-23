@@ -113,10 +113,10 @@ def plot_avg_scr_recall():
 
 
 def plot_all_avgs():
-    experiment_name = "fmnist_mlp"
+    experiment_name = "artbench_cnn"
     src_dir = f"C:\\cpen442\\442_DataPoisoning_FL\\experiment_results\\{experiment_name}"
 
-    sets = ["M_0", "M_10", "M_20"]
+    sets = ["M_0", "M_10", "M_20", "M_40"]
 
     epochs = list(range(1, 201))
 
@@ -151,7 +151,7 @@ def plot_all_avgs():
         # Calculate the average of all columns
         mean = result_df.mean(axis=1)
 
-        plt.plot(epochs, mean, label=p_set)
+        plt.plot(epochs, mean, label=f"m={p_set.split('_')[-1]}%")
 
     plt.legend()
     plt.savefig(f"{src_dir}\\avg_plot")
@@ -168,7 +168,9 @@ def plot_all_exps():
     epochs = list(range(1, 201))
     plt.xlabel("Epochs")
     plt.ylabel("Source Recall")
-    plt.title("Source Recall of All Models vs Poisoned Workers")
+    plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter())
+    title = "Avg Source Recall of All Models vs Poisoned Workers"
+    plt.title(title)
 
     experiments = [f for f in os.listdir(src_dir) if f.endswith("mlp") or f.endswith("cnn")]
 
@@ -199,10 +201,11 @@ def plot_all_exps():
         # Calculate the average of all columns
         mean = result_df.mean(axis=1)
 
-        plt.plot(epochs, mean, label=m_set)
+        plt.plot(epochs, mean * 100, label=f"m={m_set.split('_')[-1]}%")
 
     plt.legend()
-    plt.savefig(f"{src_dir}\\src_recall_all_exps")
+    # plt.savefig(f"{src_dir}\\src_recall_all_exps")
+    plt.savefig(f"C:\\cpen442\\442_DataPoisoning_FL\\plots\\{title}.png")
     plt.show()
 
 
@@ -217,19 +220,27 @@ def plot_mlp_vs_cnn():
 
     epochs = list(range(1, 201))
     plt.xlabel("Epochs")
-    plt.ylabel("Source Recall")
-    title = "CIFAR CNN vs MLP response to poisoning"
-    plt.title(title)
-    plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter())
+    plt.ylabel("Source Recall difference from m=0%")
+    title = "MNIST CNN vs MLP response to poisoning"
+    plt.title(title, loc='left')
+    ax = plt.gca()
+    ax.yaxis.set_major_formatter(mtick.PercentFormatter())
+    # ax.set_ylim([None, 150])
     plot_colours = {
         "M_10" : "blue",
         "M_20" : "orange",
         "M_40" : "green"
     }
 
+    # MNIST Only
+    experiments = [f for f in os.listdir(src_dir) if f.endswith("mnist_mlp") or f.endswith("mnist_cnn")]
 
-    # experiments = [f for f in os.listdir(src_dir) if (f.endswith("mlp") or f.endswith("cnn")) and not("artbench" in f)]
-    experiments = [f for f in os.listdir(src_dir) if not(f.endswith("mnist_mlp")) and not(f.endswith("mnist_cnn")) and not("resnet" in f)]
+    # CIFAR Only
+    # experiments = [f for f in os.listdir(src_dir) if (f.endswith("mlp") or f.endswith("cnn")) and not("mnist" in f)]
+
+    # Both Set Styles
+    # experiments = [f for f in os.listdir(src_dir) if f.endswith("mlp") or f.endswith("cnn")]
+
 
     # Initialize an empty dataframe to store the averages
     m0_df = pd.DataFrame()
@@ -296,15 +307,16 @@ def plot_mlp_vs_cnn():
 
         mlp = mlp_df.mean(axis=1) * 100
 
-        plt.plot(epochs, mlp, label=f"mlp, {m_set}", linestyle="solid", color=plot_colours[m_set])
+        plt.plot(epochs, mlp, label=f"mlp, m={m_set.split('_')[-1]}%", linestyle="solid", color=plot_colours[m_set])
 
         cnn = cnn_df.mean(axis=1) * 100
 
-        plt.plot(epochs, cnn, label=f"cnn, {m_set}", linestyle="dotted", color=plot_colours[m_set])
+        plt.plot(epochs, cnn, label=f"cnn, m={m_set.split('_')[-1]}%", linestyle="dotted", color=plot_colours[m_set])
 
 
     plt.legend(loc='upper right', bbox_to_anchor=(1.12, 1.1))
-    plt.savefig(f"{src_dir}\\{title}")
+    # plt.savefig(f"{src_dir}\\{title}")
+    plt.savefig(f"C:\\cpen442\\442_DataPoisoning_FL\\plots\\{title}.png")
     plt.show()
 
 
@@ -322,7 +334,7 @@ def plot_dataset_response():
 
     epochs = list(range(1, 201))
     plt.xlabel("Epochs")
-    plt.ylabel("Source Recall")
+    plt.ylabel("Source Recall difference from m=0%")
     title = "Dataset Response to Poisoning, m=10%"
     plt.title(title)
     plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter())
@@ -391,7 +403,7 @@ def plot_dataset_response():
             diff = abs(mean - m0_df[experiment])/m0_df[experiment]
 
 
-            plt.plot(epochs, diff * 100, label=experiment)
+            plt.plot(epochs, diff * 100, label=experiment.split('_')[0])
 
     # plt.legend(loc='upper right', bbox_to_anchor=(1.12, 1.1))
     plt.legend()
@@ -413,7 +425,7 @@ def plot_dataset_response_both_models():
 
     epochs = list(range(1, 201))
     plt.xlabel("Epochs")
-    plt.ylabel("Source Recall")
+    plt.ylabel("Source Recall difference from m=0%")
     title = "Dataset Response to Poisoning, m=10%"
     plt.title(title)
     plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter())
@@ -445,8 +457,6 @@ def plot_dataset_response_both_models():
 
         # Loop through each CSV file
         for csv_file in csv_files:
-            # Construct the full path to the CSV file
-            # file_path = os.path.join(sub_dir, csv_file)
 
             # Read the CSV file
             df = pd.read_csv(csv_file, header=None)
@@ -494,19 +504,6 @@ def plot_dataset_response_both_models():
 
             diff = abs(mean - m0_df[experiment])/m0_df[experiment]
 
-            # if "artbench" in experiment:
-                # style = "solid"
-                # name = "artbench"
-            # elif "cifar" in experiment:
-                # style = "dashdot"
-                # name = "cifar"
-            # elif "fmnist" in experiment:
-                # style = "dotted"
-                # name = "fmnist"
-            # elif "kmnist" in experiment:
-                # style = "dashed"
-                # name = "kmnist"
-
             plt.plot(epochs, diff * 100, label=experiment.split('_')[0])
 
     # plt.legend(loc='upper right', bbox_to_anchor=(1.12, 1.1))
@@ -516,9 +513,63 @@ def plot_dataset_response_both_models():
 
 
 
+# Plot the source recall for each dataset at M_0
+# This shows the relative difficulty of each dataset
+def plot_dataset_difficulty():
+    src_dir = "C:\\cpen442\\442_DataPoisoning_FL\\experiment_results"
+
+    epochs = list(range(1, 201))
+    plt.xlabel("Epochs")
+    plt.ylabel("Source Recall")
+    m_set = "M_20"
+    title = f"Baseline Source Recall across Datasets, {m_set}"
+    plt.title(title)
+    plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter())
+
+
+    experiments = [f for f in os.listdir(src_dir) if f.endswith("cnn")]
+
+    for experiment in experiments:
+        sub_dir = f"{src_dir}\\{experiment}\\{m_set}\\"
+
+        csv_files = [os.path.join(sub_dir, f) for f in os.listdir(sub_dir) if f.endswith("results.csv")]
+
+        sub_dir2 = f"{src_dir}\\{experiment.split('_')[0]}_mlp\\{m_set}\\"
+
+        csv_files += [os.path.join(sub_dir2, f) for f in os.listdir(sub_dir2) if f.endswith("results.csv")]
+
+
+        result_df = pd.DataFrame()
+
+        # Loop through each CSV file
+        for csv_file in csv_files:
+            # Read the CSV file
+            df = pd.read_csv(csv_file, header=None)
+
+            # Extract the first column
+            col = df.iloc[:, 13]
+
+            # Add the first column to the result dataframe
+            result_df[csv_file] = col
+
+
+        plt.plot(epochs, result_df.mean(axis=1) * 100, label=experiment.split('_')[0])
+
+
+
+    # plt.legend(loc='upper right', bbox_to_anchor=(1.12, 1.1))
+    plt.legend()
+    plt.savefig(f"C:\\cpen442\\442_DataPoisoning_FL\\plots\\{title}.png")
+    plt.show()
+
+
+
+
 # plot_all_exps()
 
 # plot_mlp_vs_cnn()
-plot_dataset_response_both_models()
+# plot_dataset_response_both_models()
+# plot_all_exps()
+plot_dataset_difficulty()
 # plot_all_avgs()
 # plot_src_recall()
