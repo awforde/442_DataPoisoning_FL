@@ -169,10 +169,10 @@ def plot_all_exps():
     plt.xlabel("Epochs")
     plt.ylabel("Source Recall")
     plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter())
-    title = "Avg Source Recall of All Models vs Poisoned Workers"
+    title = "Avg Accuracy of All Models vs Poisoned Workers"
     plt.title(title)
 
-    experiments = [f for f in os.listdir(src_dir) if f.endswith("mlp") or f.endswith("cnn")]
+    experiments = [f for f in os.listdir(src_dir) if (f.endswith("mlp") or f.endswith("cnn")) and "kmnist" in f]
 
     for m_set in sets:
 
@@ -193,7 +193,7 @@ def plot_all_exps():
                 df = pd.read_csv(file_path, header=None)
 
                 # Extract the first column
-                col = df.iloc[:, 13]
+                col = df.iloc[:, 0]
 
                 # Add the first column to the result dataframe
                 result_df[csv_file] = col
@@ -201,7 +201,7 @@ def plot_all_exps():
         # Calculate the average of all columns
         mean = result_df.mean(axis=1)
 
-        plt.plot(epochs, mean * 100, label=f"m={m_set.split('_')[-1]}%")
+        plt.plot(epochs, mean, label=f"m={m_set.split('_')[-1]}%")
 
     plt.legend()
     # plt.savefig(f"{src_dir}\\src_recall_all_exps")
@@ -569,7 +569,7 @@ def plot_dataset_difficulty():
 
 # plot_mlp_vs_cnn()
 # plot_dataset_response_both_models()
-# plot_all_exps()
-plot_dataset_difficulty()
+plot_all_exps()
+# plot_dataset_difficulty()
 # plot_all_avgs()
 # plot_src_recall()
